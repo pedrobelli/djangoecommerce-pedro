@@ -3,3 +3,5 @@ Django==2.0.2
 gunicorn==19.7.1
 psycopg2==2.7.4
 pytz==2018.3
+model-mommy==1.5.1
+whitenoise==3.3.1
