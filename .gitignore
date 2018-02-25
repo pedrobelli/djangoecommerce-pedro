@@ -1,3 +1,4 @@
 .vscode/
 venv/
 design/
+djangoecommerce/local_settings.py
