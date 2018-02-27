@@ -20,11 +20,23 @@ class ProductListTestCase(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'catalog/product_list.html')
 
-    def test_context(self):
+    def test_context_has_products(self):
         response = self.client.get(self.url)
         self.assertTrue('products' in response.context)
+
+    def test_context_products_per_page(self):
+        response = self.client.get(self.url)
         products = response.context['products']
-        self.assertEquals(products.count(), 10)
+        self.assertEquals(products.count(), 3)
+
+    def test_contextwith_paginator(self):
+        response = self.client.get(self.url)
+        paginator = response.context['paginator']
+        self.assertEquals(paginator.num_pages, 4)
+    
+    def test_page_not_found(self):
+        response = self.client.get('{}?page=5'.format(self.url))
+        self.assertEquals(response.status_code, 404)
 
 class CategoryTestCase(TestCase):
 
@@ -50,4 +62,4 @@ class CategoryTestCase(TestCase):
         self.assertEquals(current_category.name, 'Testando Categoria')
         self.assertTrue('products' in response.context)
         products = response.context['products']
-        self.assertEquals(products.count(), 15)
+        self.assertEquals(products.count(), 3)
